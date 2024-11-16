@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <title>PushePoll</title>
+    <style>
+      /* Global Styles */
+      body {
+        background: linear-gradient(135deg, #ff7e5f, #feb47b, #6a11cb, #2575fc, #38ef7d);
+        background-size: 400% 400%; /* Smooth gradient transition */
+        animation: gradient 10s ease infinite; /* Animated gradient effect */
+        font-family: "Roboto", sans-serif;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Animated Gradient */
+      @keyframes gradient {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      /* Overlay for better contrast */
+      body::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5); /* Dark overlay for better readability */
+        z-index: -1;
+      }
+
+      /* Inner Container with Gradient */
+      .container {
+        max-width: 600px;
+        background: linear-gradient(135deg, #f8ffae, #43c6ac);
+        color: #333;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2), 0px 4px 6px rgba(0, 0, 0, 0.15);
+        text-align: center;
+        transform: translateY(-10px);
+      }
+
+      /* Header */
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        text-align: center;
+        color: #1e3c72;
+        text-shadow: 2px 4px 6px rgba(0, 0, 0, 0.2);
+      }
+
+      p {
+        text-align: center;
+        font-size: 1.2rem;
+        margin-bottom: 25px;
+        color: #555;
+        text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Form Elements */
+      #vote-form {
+        margin-top: 20px;
+      }
+
+      /* Radio Button Group */
+      .radio-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      /* Labels with Unique Colors */
+      .radio-group label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 250px;
+        height: 50px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: white;
+        border-radius: 8px;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.15);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      label[for="windows"] {
+        background: linear-gradient(135deg, #ff7e5f, #feb47b);
+      }
+
+      label[for="macos"] {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+      }
+
+      label[for="linux"] {
+        background: linear-gradient(135deg, #11998e, #38ef7d);
+      }
+
+      label[for="other"] {
+        background: linear-gradient(135deg, #ff512f, #dd2476);
+      }
+
+      /* Hover Effect for Labels */
+      .radio-group label:hover {
+        transform: translateY(-3px);
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      input[type="radio"] {
+        display: none;
+      }
+
+      /* Button Styling */
+      .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        width: 150px;
+        height: 50px;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        color: white;
+        font-size: 1.2rem;
+        font-weight: bold;
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn:hover {
+        background: linear-gradient(135deg, #163256, #1e3c72);
+        transform: translateY(-2px);
+      }
+
+      /* Chart Container */
+      #chartContainer {
+        margin-top: 30px;
+        background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+        border-radius: 10px;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
+        padding: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>OS Vote</h1>
+      <p>Vote for your favorite OS to develop on</p>
+      <form id="vote-form">
+        <div class="radio-group">
+          <label for="windows">
+            <input type="radio" name="os" id="windows" value="Windows" />
+            Windows
+          </label>
+          <label for="macos">
+            <input type="radio" name="os" id="macos" value="MacOS" />
+            MacOS
+          </label>
+          <label for="linux">
+            <input type="radio" name="os" id="linux" value="Linux" />
+            Linux Distro
+          </label>
+          <label for="other">
+            <input type="radio" name="os" id="other" value="Other" />
+            Something Else
+          </label>
+        </div>
+        <button type="submit" class="btn">Vote</button>
+      </form>
+
+      <div id="chartContainer" style="height: 300px; width: 100%"></div>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/pusher/8.3.0/pusher.min.js"
+      integrity="sha512-tXL5mrkSoP49uQf2jO0LbvzMyFgki//znmq0wYXGq94gVF6TU0QlrSbwGuPpKTeN1mIjReeqKZ4/NJPjHN1d2Q=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/canvasjs.min.js"
+      integrity="sha512-FJ2OYvUIXUqCcPf1stu+oTBlhn54W0UisZB/TNrZaVMHHhYvLBV9jMbvJYtvDe5x/WVaoXZ6KB+Uqe5hT2vlyA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="main.js"></script>
+  </body>
+</html>
