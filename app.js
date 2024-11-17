@@ -5,7 +5,6 @@ const cors = require('cors');
 
 //DB Config
 require('./config/db');
-
 const app = express();
 
 
