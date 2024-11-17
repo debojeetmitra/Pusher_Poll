@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const choice = document.querySelector("input[name=os]:checked").value;
     const data = { os: choice };
 
-    fetch("https://pusher-poll-api.onrender.com/poll", {
+    fetch("http://localhost:3000/poll", {
       method: "POST",
       body: JSON.stringify(data),
       headers: new Headers({
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // Fetch votes and render chart
-  fetch("https://pusher-poll-api.onrender.com/poll")
+  fetch("http://localhost:3000/poll")
     .then((res) => res.json())
     .then((data) => {
       const votes = data.votes || [];
