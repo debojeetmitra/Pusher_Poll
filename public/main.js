@@ -3,7 +3,7 @@ form.addEventListener("submit", (e) => {
   const choice = document.querySelector("input[name=os]:checked").value;
   const data = { os: choice };
 
-  fetch("https://your-live-url.com/poll", {  // Change to your live backend URL
+  fetch("https://pusher-poll-api.onrender.com/poll", {  // Change to your live backend URL
     method: "POST",
     body: JSON.stringify(data),
     headers: new Headers({
@@ -18,7 +18,7 @@ form.addEventListener("submit", (e) => {
 });
 
 // Fetch votes and render chart
-fetch("https://your-live-url.com/poll")  // Change to your live backend URL
+fetch("https://pusher-poll-api.onrender.com/poll")  // Change to your live backend URL
   .then((res) => res.json())
   .then((data) => {
     const votes = data.votes;
@@ -33,11 +33,14 @@ fetch("https://your-live-url.com/poll")  // Change to your live backend URL
     );
 
     let dataPoints = [
-      { label: "Windows", y: voteCounts.Windows },
-      { label: "MacOS", y: voteCounts.MacOS },
-      { label: "Linux", y: voteCounts.Linux },
-      { label: "Other", y: voteCounts.Other },
+      { label: "Windows", y: voteCounts.Windows || 0 },
+      { label: "MacOS", y: voteCounts.MacOS || 0 },
+      { label: "Linux", y: voteCounts.Linux || 0 },
+      { label: "Other", y: voteCounts.Other || 0 },
     ];
+
+    // Ensure chartContainer exists before rendering
+    const chartContainer = document.getElementById("chartContainer");
 
     if (chartContainer) {
       const chart = new CanvasJS.Chart("chartContainer", {
@@ -56,7 +59,7 @@ fetch("https://your-live-url.com/poll")  // Change to your live backend URL
       chart.render();
 
       // Pusher setup
-      var pusher = new Pusher("your-app-id", {  // Replace with live Pusher app ID
+      var pusher = new Pusher("1896944", {  // Replace with live Pusher app ID
         cluster: "ap2",
       });
 
