@@ -1,12 +1,10 @@
-const form = document.getElementById("vote-form");
-
-//Form Submit Event
+// Form Submit Event
 form.addEventListener("submit", (e) => {
   const choice = document.querySelector("input[name=os]:checked").value;
   const data = { os: choice };
 
-  fetch("http://localhost:3000/poll", {
-    method: "post",
+  fetch("https://your-live-url.com/poll", {  // Change to your live backend URL
+    method: "POST",
     body: JSON.stringify(data),
     headers: new Headers({
       "Content-Type": "application/json",
@@ -19,18 +17,20 @@ form.addEventListener("submit", (e) => {
   e.preventDefault();
 });
 
-fetch("http://localhost:3000/poll")
+// Fetch votes and render chart
+fetch("https://your-live-url.com/poll")  // Change to your live backend URL
   .then((res) => res.json())
   .then((data) => {
     const votes = data.votes;
     const totalVotes = votes.length;
-    //Count vote points - acc/current
+
     const voteCounts = votes.reduce(
-      (acc, vote) =>(
-        (acc[vote.os] = (acc[vote.os] || 0) + parseInt(vote.points)),acc
-    ),
-    {}
-);
+      (acc, vote) => (
+        (acc[vote.os] = (acc[vote.os] || 0) + parseInt(vote.points)),
+        acc
+      ),
+      {}
+    );
 
     let dataPoints = [
       { label: "Windows", y: voteCounts.Windows },
@@ -44,7 +44,7 @@ fetch("http://localhost:3000/poll")
         animationEnabled: true,
         theme: "theme1",
         title: {
-          text: `Total Votes ${totalVotes}`
+          text: `Total Votes ${totalVotes}`,
         },
         data: [
           {
@@ -55,10 +55,8 @@ fetch("http://localhost:3000/poll")
       });
       chart.render();
 
-      // Enable pusher logging - don't include this in production
-      Pusher.logToConsole = true;
-
-      var pusher = new Pusher("f883f1864620d19ffe5a", {
+      // Pusher setup
+      var pusher = new Pusher("your-app-id", {  // Replace with live Pusher app ID
         cluster: "ap2",
       });
 
