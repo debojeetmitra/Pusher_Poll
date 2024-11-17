@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       // Pusher setup
-      var pusher = new Pusher("your-app-id", {  // Replace with live Pusher app ID
+      var pusher = new Pusher("1896944", {  // Replace with live Pusher app ID
         cluster: "ap2",
       });
 
